@@ -1,5 +1,4 @@
 use x11rb::connection::Connection;
-use x11rb::rust_connection::RustConnection;
 use x11rb::protocol::xproto::*;
 use x11rb::COPY_DEPTH_FROM_PARENT;
 
@@ -34,9 +33,9 @@ impl Reduc for Client {
             WindowClass::INPUT_OUTPUT,
             0,
             &CreateWindowAux::new().background_pixel(screen.white_pixel),
-        );
-        con.map_window(self.window_id);
-        con.flush();
+        ).unwrap();
+        con.map_window(self.window_id).unwrap();
+        con.flush().unwrap();
         loop {
             println!("Event: {:?}", con.wait_for_event().unwrap());
         }
